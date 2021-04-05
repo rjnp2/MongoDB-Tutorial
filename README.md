@@ -36,17 +36,21 @@ Date |	This datatype stores the current date or time in unix time format. It mak
 
 ## How to install MongoDB on Linux
   sudo apt-get install mongodb
+  
   mongodb
   
 ## MongoDB Create Database
   Syntax:
+  
   use DATABASE_NAME  
   
   To check the database list, use the command show dbs:
+  
   show dbs  
   
 ## MongoDB Drop Database
   Syntax:
+  
   db.dropDatabase()  
   
 ## MongoDB Create Collection
@@ -60,8 +64,19 @@ Date |	This datatype stores the current date or time in unix time format. It mak
 ## MongoDB Drop collection
   Syntax:
   db.COLLECTION_NAME.drop()  
-
-
+  
+## MongoDB insert documents
+   Syntax
+   db.COLLECTION_NAME.insert(document)  
+   
+## MongoDB insert multiple documents
+   var Allcourses =  [ {}, {},  ]
+   db.javatpoint.insert( Allcourses );
+   
+## Check the inserted documents
+  If the insertion is successful, you can view the inserted document by the following query.
+  Syntax:
+  db.javatpoint.find()  
 
 
   
