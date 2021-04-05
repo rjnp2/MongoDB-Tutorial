@@ -15,6 +15,8 @@ Now, you have to create a collection named "library" as follows:
          { _id: 105, name: "Salesforce", description: "By Salesforce" }  
        ]  
     )  
+    
+   ![1](https://github.com/rjnp2/MongoDB-Tutorial/blob/main/images/1.png)
 
 ##  Text Index
 In MongoDB we have text indexes to support text search queries on string content. The field that have any string value or an array of string elements may include by text indexes
@@ -24,6 +26,7 @@ We must have a text index in our collection to perform text search queries. In a
 We can run the following example in Mongo shell to allow text search cover the name and description fields:
 
     db.library.createIndex( { name: "text", description: "text" } )  
+![1](https://github.com/rjnp2/MongoDB-Tutorial/blob/main/images/2.png)
 
 ## $text Operator
 We can use the $text operator to perform text searches on a table with a text index. The $text operator will flag the search string which uses the whitespaces and also most of the punctuation as delimiters. The $text operator performs a logical OR operation for all such tokens in the search string.
@@ -38,6 +41,8 @@ For Example -
 
     db.library.find( { $text: { $search: "\"Java Book\"" } } )  
 
+![1](https://github.com/rjnp2/MongoDB-Tutorial/blob/main/images/3.png)
+
 ## Sorting
 MongoDB return the result by default in unsorted order. An optimum score will be computed for each document by the text search query that specifies how well a document matches the query.
 
@@ -45,3 +50,5 @@ MongoDB return the result by default in unsorted order. An optimum score will be
        { $text: { $search: "java" } },  
        { score: { $meta: "textScore" } }  
     ).sort( { score: { $meta: "textScore" } } )  
+
+![1](https://github.com/rjnp2/MongoDB-Tutorial/blob/main/images/4.png)
