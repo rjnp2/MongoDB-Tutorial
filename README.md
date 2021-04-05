@@ -42,42 +42,136 @@ Date |	This datatype stores the current date or time in unix time format. It mak
 ## MongoDB Create Database
   Syntax:
   
-  use DATABASE_NAME  
+      use DATABASE_NAME  
   
   To check the database list, use the command show dbs:
   
-  show dbs  
+        show dbs  
   
 ## MongoDB Drop Database
   Syntax:
   
-  db.dropDatabase()  
+        db.dropDatabase()  
   
 ## MongoDB Create Collection
   Syntax:
-  db.createCollection(name, options)   
+        
+        db.createCollection(name, options)   
   Here, Name: is a string type, specifies the name of the collection to be created.
         Options: is a document type, specifies the memory size and indexing of the collection. It is an optional parameter.
         
-  show collections  
+        show collections  
 
 ## MongoDB Drop collection
   Syntax:
-  db.COLLECTION_NAME.drop()  
+        
+        db.COLLECTION_NAME.drop()  
   
 ## MongoDB insert documents
    Syntax
-   db.COLLECTION_NAME.insert(document)  
+        
+        db.COLLECTION_NAME.insert(document)  
    
 ## MongoDB insert multiple documents
-   var Allcourses =  [ {}, {},  ]
-   db.javatpoint.insert( Allcourses );
+       
+       var Allcourses =  [ {}, {},  ]
+       db.COLLECTION_NAME.insert( Allcourses );
    
 ## Check the inserted documents
   If the insertion is successful, you can view the inserted document by the following query.
   Syntax:
-  db.javatpoint.find()  
+        
+        db.COLLECTION_NAME.find()  
 
+## Insert multiple documents with Bulk
+In its latest version of MongoDB (MongoDB 2.6) provides a Bulk() API that can be used to perform multiple write operations in bulk.
+You should follow these steps to insert a group of documents into a MongoDB collection.
+Initialize a bulk operation builder
 
+  Syntax:    
+
+    var bulk = db.javatpoint.initializeUnorderedBulkOp(); 
+   This operation returns an unorder operations builder which maintains a list of operations to perform .
+
+Add insert operations to the bulk object \
+  Syntax:    
+
+    bulk.insert( { } );    
+Execute the bulk operation
+Call the execute() method on the bulk object to execute the operations in the list.
+
+    bulk.execute();  
   
- 
+## MongoDB update documents
+  Syntax:
+
+        db.COLLECTION_NAME.update(SELECTIOIN_CRITERIA, UPDATED_DATA)  
+   example: db.COLLECTION_NAME.update({'course':'java'},{$set:{'course':'android'}})
+   
+## MongoDB Delete documents
+In MongoDB, the db.colloction.remove() method is used to delete documents from a collection. The remove() method works on two parameters.
+Deletion criteria: With the use of its syntax you can remove the documents from the collection, JustOne: It removes only one document when set to true or 1. \
+    Syntax:
+
+        db.collection_name.remove (DELETION_CRITERIA) 
+    Remove all documents
+        db.javatpoint.remove({})   
+    Remove all documents that match a condition
+         db.javatpoint.remove( { type : "programming language" } )  
+    Remove a single document that match a condition
+          db.javatpoint.remove( { type : "programming language" }, 1 )  
+
+## MongoDB Query documents
+In MongoDB, the db.collection.find() method is used to retrieve documents from a collection. This method returns a cursor to the retrieved documents. \
+    Syntax:
+
+        db.COLLECTION_NAME.find({}) 
+        
+    Select all documents in a collection:
+    To retrieve all documents from a collection, put the query document ({}) empty. It will be like this:
+        db.COLLECTION_NAME.find()   
+        
+## Create and Alter commands
+SQL statements	| MongoDB statements
+|--|--|
+CREATE TABLE JavaTpoint () | db.createCollection ( " JavaTpoint " )
+DROP TABLE people | db.people.drop ()
+
+## MongoDB and SQL Insert Statement
+SQL Insert statement |	MongoDB insert statement
+|--|--|
+INSERT INTO JavaTpoint () VALUES () | db.JavaTpoint.insert({ })
+
+## SQL and Mongo DB Select Command
+SQL SELECT Statement |	MongoDB find() Statement
+|--|--|
+SELECT * FROM JavaTpoint | db.JavaTpoint.find()
+SELECT id, user_id, status FROM JavaTpoint | db.JavaTpoint.find( { }, { user_id: 1, status: 1 } )
+SELECT user_id, status FROM JavaTpoint | db.JavaTpoint.find( { }, { user_id: 1, status: 1, _id: 0 } )
+SELECT * FROM JavaTpoint WHERE status = "B" | db.JavaTpoint.find( { status: "A" } )
+SELECT * FROM JavaTpoint WHERE status = "A" AND age = 50 | db.JavaTpoint.find({ status: "A", age: 50 } )
+SELECT * FROM JavaTpoint WHERE status = "A" OR age = 50 | db.JavaTpoint.find( { $or: [ { status: "A" } , { age: 50 } ] })
+SELECT * FROM JavaTpoint WHERE age > 25 | db.JavaTpoint.find({ age: { $gt: 25 } })
+SELECT * FROM JavaTpoint WHERE user_id like "%bc%" | db.JavaTpoint.find( { user_id: /bc/ } )
+SELECT * FROM JavaTpoint WHERE user_id like "bc%" | db.JavaTpoint.find( { user_id: /^bc/ } )
+SELECT * FROM JavaTPoint WHERE status = "A" ORDER BY user_id ASC | db. JavaTPoint. find( { status: "A" } ). sort( { user_id: 1 } )
+SELECT COUNT(user_id) FROM JavaTPoint | db. JavaTPoint.count( { user_id: { $exists: true } } )
+SELECT COUNT(*) FROM JavaTPoint WHERE age > 30 | db. JavaTPoint.count( { age: { $gt: 30 } } )
+SELECT DISTINCT(status) FROM JavaTPoint | db. JavaTPoint.aggregate( [ { $group : { _id : "$status" } } ] ) or db. JavaTPoint.distinct( "status" )
+SELECT * FROM JavaTPoint LIMIT 1 | db. JavaTPoint.findOne() or db. JavaTPoint.find(). limit(1)
+SELECT * FROM JavaTPoint LIMIT 5 SKIP 10 | db. JavaTPoint.find(). limit(5). skip(10)
+EXPLAIN SELECT * FROM JavaTPoint WHERE status = "A" | db. JavaTPoint. find( { status: "A" } ). explain()
+
+## SQL and MongoDB Update Statements
+SQL Update Statements | MongoDB updateMany() Statements
+|--|--|
+UPDATE JavaTpoint SET status = "C" WHERE age > 25 | db.JavaTpoint.updateMany( { age: { $gt: 25 } }, { $set: { status: "C" } } )
+UPDATE JavaTpoint SET age = age + 3 WHERE status = "A" | db.JavaTpoint.updateMany( { status: "A" } , { $inc: { age: 3 } } )
+
+## SQL and MongoDB Delete Statements
+
+SQL Delete Statements	| MongoDB deleteMany() Statements
+|--|--|
+DELETE FROM JavaTpoint WHERE status = "D" | db.JavaTpoint.deleteMany( { status: "D" } )
+DELETE FROM JavaTpoint | db.JavaTpoint.deleteMany( { } )
+
